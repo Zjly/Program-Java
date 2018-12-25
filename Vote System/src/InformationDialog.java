@@ -3,9 +3,16 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * 学生详细信息
+ */
 class InformationDialog extends Dialog {
     private Student student; // 当前学生
 
+    /**
+     * @param owner 主窗口
+     * @param student 当前学生
+     */
     InformationDialog(Frame owner, Student student) {
         super(owner, "详细信息", true);
         this.student = student;
@@ -15,6 +22,9 @@ class InformationDialog extends Dialog {
         setVisible(true);
     }
 
+    /**
+     * 控件摆放设置
+     */
     private void setUp() {
         // 面板设置
         JPanel panelPhoto = new JPanel();
@@ -46,10 +56,12 @@ class InformationDialog extends Dialog {
         addWindowListener(new WindowCloser());
     }
 
+    /**
+     * 关闭窗口
+     */
     class WindowCloser extends WindowAdapter {
-        // 关闭按钮
         public void windowClosing(WindowEvent we) {
-            dispose();
+            dispose(); // 点击关闭时释放当前窗口
         }
     }
 }

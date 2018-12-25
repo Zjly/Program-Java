@@ -1,7 +1,19 @@
+/**
+ * 学生类
+ */
 class Student {
-    String name; // 姓名
-    String imagePath; // 图片路径
-    int voteCounts; // 得票数
-    String briefIntroduction; // 简介
-    String detailedInformation; // 详细介绍
+    /** 学生姓名 */
+    String name;
+
+    /** 学生图片储存路径 */
+    String imagePath;
+
+    /** 学生得票数 */
+    int voteCounts;
+
+    /** 学生简介 */
+    String briefIntroduction;
+
+    /** 学生详细介绍 */
+    String detailedInformation;
 }

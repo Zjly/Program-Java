@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * 登录界面
+ */
 class LoginDialog extends Dialog implements ActionListener {
     // 登录控件
     private JTextField textUserName = new JTextField(10);
@@ -22,6 +25,9 @@ class LoginDialog extends Dialog implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * 控件摆放设置
+     */
     private void setUp() {
         setInputArea();
         setButton();
@@ -33,7 +39,9 @@ class LoginDialog extends Dialog implements ActionListener {
         addWindowListener(new WindowCloser()); // 关闭按钮监听
     }
 
-    // 登陆输入区设置
+    /**
+     * 登陆输入区设置
+     */
     private void setInputArea() {
         // 用户名区域设置
         JPanel panelUserName = new JPanel();
@@ -54,28 +62,39 @@ class LoginDialog extends Dialog implements ActionListener {
         panelInputArea.add(panelPassword);
     }
 
-    // 按钮设置
+    /**
+     * 按钮设置
+     */
     private void setButton() {
         panelButton.add(buttonLogin);
+        buttonLogin.addActionListener(this);
     }
 
+    /**
+     * 按键响应事件处理
+     * @param e 触发的事件
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // 登录
         if(e.getSource() == buttonLogin) {
             User user = VoteService.login(textUserName.getText(), String.valueOf(textPassword.getPassword()), MainInterface.users);
-            if(MainInterface.currentUser != null) {
+            if(user != null) {
                 MainInterface.currentUser = user;
                 MainInterface.voteCount = VoteService.getVotes(user);
                 dispose();
+            } else {
+                // 密码错误提示框
             }
         }
     }
 
+    /**
+     * 关闭窗口
+     */
     class WindowCloser extends WindowAdapter {
-        // 关闭按钮
         public void windowClosing(WindowEvent we) {
-            dispose();
+            dispose(); // 点击关闭按钮后释放当前窗口
         }
     }
 }

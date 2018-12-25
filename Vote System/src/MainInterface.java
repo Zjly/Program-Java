@@ -6,6 +6,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+/**
+ * 投票系统主界面
+ */
 public class MainInterface extends JFrame implements ActionListener {
     static ArrayList<Student> students = new ArrayList<>(); // 学生表
     private static int index = 0; // 当前学生
@@ -48,6 +51,9 @@ public class MainInterface extends JFrame implements ActionListener {
     private JLabel labelUserName = new JLabel();
     private JLabel labelVoteTimes = new JLabel();
 
+    /**
+     * 构造函数
+     */
     MainInterface() {
         super("三好学生投票");
         setUp();
@@ -56,7 +62,9 @@ public class MainInterface extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    // 控件设置
+    /**
+     * 控件设置
+     */
     private void setUp() {
         setMenu();
         setPanel();
@@ -66,7 +74,9 @@ public class MainInterface extends JFrame implements ActionListener {
         addWindowListener(new WindowCloser()); // 关闭按钮监听
     }
 
-    // 菜单设置
+    /**
+     * 菜单设置
+     */
     private void setMenu() {
         menuBar.add(user);
         menuBar.add(statistics);
@@ -88,7 +98,9 @@ public class MainInterface extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
     }
 
-    // 面板设置
+    /**
+     * 面板设置
+     */
     private void setPanel() {
         setPanelUser();
         setPanelPhoto();
@@ -106,7 +118,9 @@ public class MainInterface extends JFrame implements ActionListener {
         this.add("South", panelButton);
     }
 
-    // 用户区域设置
+    /**
+     * 用户区域设置
+     */
     private void setPanelUser() {
         panelUser.setLayout(new FlowLayout());
         panelUser.add(labelUserName);
@@ -114,7 +128,9 @@ public class MainInterface extends JFrame implements ActionListener {
         refreshUser();
     }
 
-    // 照片区域设置
+    /**
+     * 照片区域设置
+     */
     private void setPanelPhoto() {
         // 翻页按钮设置(按钮大小适应图片大小)
         ImageIcon left = new ImageIcon("files\\image\\left.png");
@@ -138,7 +154,9 @@ public class MainInterface extends JFrame implements ActionListener {
         buttonNext.addActionListener(this);
     }
 
-    // 简介设置
+    /**
+     * 简介设置
+     */
     private void setPanelInformation() {
         JPanel panelName = new JPanel();
         JPanel panelIntroduction = new JPanel();
@@ -159,7 +177,9 @@ public class MainInterface extends JFrame implements ActionListener {
         panelInformation.add(panelVoteCounts);
     }
 
-    // 按钮设置
+    /**
+     * 按钮设置
+     */
     private void setPanelButton() {
         // 取消焦点选中
         buttonVote.setFocusPainted(false);
@@ -175,6 +195,10 @@ public class MainInterface extends JFrame implements ActionListener {
         buttonInformation.addActionListener(this);
     }
 
+    /**
+     * 按键响应事件处理
+     * @param e 触发的事件
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // 前一个学生
@@ -206,10 +230,13 @@ public class MainInterface extends JFrame implements ActionListener {
         // 登录
         else if(e.getSource() == login) {
             LoginDialog loginDialog = new LoginDialog(this, "登录");
+            refreshUser();
         }
     }
 
-    // 更新当前显示的学生
+    /**
+     * 更新当前显示的学生
+     */
     private void refreshSelectStudent() {
         labelImage.setIcon(new ImageIcon(students.get(index).imagePath));
         labelName.setText(students.get(index).name);
@@ -217,16 +244,21 @@ public class MainInterface extends JFrame implements ActionListener {
         labelIntroduction.setText(students.get(index).briefIntroduction);
     }
 
-    // 更新当前用户
+    /**
+     * 更新当前用户
+     */
     private void refreshUser() {
-        labelUserName.setText("用户名: " + currentUser);
+        String userName = currentUser == null ? "未登录" : currentUser.userName;
+        labelUserName.setText("用户名: " + userName);
         labelVoteTimes.setText("投票次数: " + voteCount + " / 3");
     }
 
+    /**
+     * 关闭窗口
+     */
     class WindowCloser extends WindowAdapter {
-        // 关闭按钮
         public void windowClosing(WindowEvent we) {
-            System.exit(0);
+            System.exit(0); // 点击关闭按钮后退出程序
         }
     }
 }

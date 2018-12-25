@@ -1,6 +1,16 @@
+/**
+ * 用户类
+ */
 class User {
-    String userName; // 用户名
-    String password; // 密码
-    int voteCount; // 投票数量
-    String voteResult; // 投票结果
+    /** 用户名 */
+    String userName;
+
+    /** 密码 */
+    String password;
+
+    /** 该用户已投票数量 */
+    int voteCount;
+
+    /** 该用户投票结果 */
+    String voteResult;
 }

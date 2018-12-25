@@ -3,12 +3,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * 投票方法类，主要用于提供投票操作中所需的方法
+ */
 class VoteService {
-    // 从txt中加载学生信息，初始化系统
+    /**
+     * 从txt中加载学生信息，初始化学生的ArrayList
+     * @param students 用于存放学生信息
+     */
     static void initStudentList(ArrayList<Student> students) {
         BufferedReader reader;
         String line;
-        // 读取文件
+        // 读取文件 初始化学生信息
         try {
             reader = new BufferedReader(new FileReader("files\\students.txt"));
             while((line = reader.readLine()) != null) {
@@ -17,21 +23,29 @@ class VoteService {
         } catch(IOException e) {
             e.printStackTrace();
         }
+
+        // 读取文件 初始化学生得票
     }
 
-    // 初始化单个学生
+    /**
+     * 初始化单个学生的详细信息
+     * @param line 从文件中读取的行，存有学生的详细信息
+     * @return 初始化完成的一个学生
+     */
     private static Student initStudent(String line) {
         Student student = new Student();
         String[] strings = line.split(" {4}");
         student.name = strings[0];
         student.imagePath = strings[1];
-        student.voteCounts = Integer.parseInt(strings[2]);
-        student.briefIntroduction = strings[3];
-        student.detailedInformation = strings[4];
+        student.briefIntroduction = strings[2];
+        student.detailedInformation = strings[3];
         return student;
     }
 
-    // 从txt中加载用户信息，初始化系统
+    /**
+     * 从txt中加载用户信息，初始化投票用户的ArrayList
+     * @param users 用于存放投票用户
+     */
     static void initUserList(ArrayList<User> users) {
         BufferedReader reader;
         String line;
@@ -46,7 +60,11 @@ class VoteService {
         }
     }
 
-    // 初始化单个用户
+    /**
+     * 初始化单个用户
+     * @param line 从文件中读取的行，存有用户的详细信息
+     * @return 初始化完成的一个用户
+     */
     private static User initUser(String line) {
         User user = new User();
         String[] strings = line.split(" {4}");
@@ -57,7 +75,13 @@ class VoteService {
         return user;
     }
 
-    // 登录判断
+    /**
+     * 登录判断
+     * @param userName 登录用户名
+     * @param password 用户密码
+     * @param users 已有用户
+     * @return 登录的用户
+     */
     static User login(String userName, String password, ArrayList<User> users) {
         for(User user : users) {
             if(userName.equals(user.userName) && password.equals(user.password)) {
@@ -67,7 +91,11 @@ class VoteService {
         return null;
     }
 
-    // 投票
+    /**
+     * 投票判断
+     * @param user 当前用户
+     * @param index 当前学生索引
+     */
     static void vote(User user, int index) {
         if(user.voteResult.indexOf(index) == '0') {
             MainInterface.students.get(index).voteCounts++;
@@ -79,7 +107,11 @@ class VoteService {
         }
     }
 
-    // 得到当前用户已投票数目
+    /**
+     * 得到当前用户已投票数目
+     * @param user 当前用户
+     * @return 已投票数目
+     */
     static int getVotes(User user) {
         int count = 0;
         for(int i = 0; i < 7; i++) {
@@ -88,5 +120,12 @@ class VoteService {
             }
         }
         return count;
+    }
+
+    /**
+     * 将投票数据写回文件
+     */
+    static void writeBack() {
+
     }
 }
