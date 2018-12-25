@@ -4,5 +4,4 @@ class Student {
     int voteCounts; // 得票数
     String briefIntroduction; // 简介
     String detailedInformation; // 详细介绍
-    boolean isVote = false; // 是否该用户投过票
 }

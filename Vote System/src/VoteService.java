@@ -58,12 +58,35 @@ class VoteService {
     }
 
     // 登录判断
-    static boolean login(String userName, String password, ArrayList<User> users) {
+    static User login(String userName, String password, ArrayList<User> users) {
         for(User user : users) {
             if(userName.equals(user.userName) && password.equals(user.password)) {
-                return true;
+                return user;
             }
         }
-        return false;
+        return null;
+    }
+
+    // 投票
+    static void vote(User user, int index) {
+        if(user.voteResult.indexOf(index) == '0') {
+            MainInterface.students.get(index).voteCounts++;
+
+            // 更新用户中投票结果
+            StringBuilder stringBuilder = new StringBuilder(user.voteResult);
+            stringBuilder.setCharAt(index, '1');
+            user.voteResult = stringBuilder.toString();
+        }
+    }
+
+    // 得到当前用户已投票数目
+    static int getVotes(User user) {
+        int count = 0;
+        for(int i = 0; i < 7; i++) {
+            if(user.voteResult.indexOf(i) == '1') {
+                count++;
+            }
+        }
+        return count;
     }
 }

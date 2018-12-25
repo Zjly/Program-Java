@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 class LoginDialog extends Dialog implements ActionListener {
     // µÇÂ¼¿Ø¼þ
-    private JTextField textUserName  = new JTextField();
-    private JTextField textPassword = new JTextField();
+    private JTextField textUserName = new JTextField(10);
+    private JPasswordField textPassword = new JPasswordField(10);
     private JButton buttonLogin = new JButton("µÇÂ¼");
 
     // Ãæ°å¿Ø¼þ
@@ -27,6 +29,8 @@ class LoginDialog extends Dialog implements ActionListener {
         setLayout(new BorderLayout());
         add("North", panelInputArea);
         add("South", panelButton);
+
+        addWindowListener(new WindowCloser()); // ¹Ø±Õ°´Å¥¼àÌý
     }
 
     // µÇÂ½ÊäÈëÇøÉèÖÃ
@@ -57,6 +61,21 @@ class LoginDialog extends Dialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // µÇÂ¼
+        if(e.getSource() == buttonLogin) {
+            User user = VoteService.login(textUserName.getText(), String.valueOf(textPassword.getPassword()), MainInterface.users);
+            if(MainInterface.currentUser != null) {
+                MainInterface.currentUser = user;
+                MainInterface.voteCount = VoteService.getVotes(user);
+                dispose();
+            }
+        }
+    }
 
+    class WindowCloser extends WindowAdapter {
+        // ¹Ø±Õ°´Å¥
+        public void windowClosing(WindowEvent we) {
+            dispose();
+        }
     }
 }

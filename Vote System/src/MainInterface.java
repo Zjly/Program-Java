@@ -7,11 +7,11 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class MainInterface extends JFrame implements ActionListener {
-    private static ArrayList<Student> students = new ArrayList<>(); // 学生表
+    static ArrayList<Student> students = new ArrayList<>(); // 学生表
     private static int index = 0; // 当前学生
-    private static ArrayList<User> users = new ArrayList<>(); // 用户表
-    private static String currentUser = "admin"; // 当前用户
-    private static int voteCount = 0;
+    static ArrayList<User> users = new ArrayList<>(); // 用户表
+    static User currentUser = null; // 当前用户
+    static int voteCount = 0;
 
     // 面板
     private JPanel panelUser = new JPanel();
@@ -193,10 +193,8 @@ public class MainInterface extends JFrame implements ActionListener {
         }
         // 投票
         else if(e.getSource() == buttonVote) {
-            if(voteCount < 3 && !students.get(index).isVote) {
-                students.get(index).voteCounts++;
-                students.get(index).isVote = true;
-                voteCount++;
+            if(voteCount < 3) {
+                VoteService.vote(currentUser, index);
                 refreshSelectStudent();
                 refreshUser();
             }
