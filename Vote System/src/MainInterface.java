@@ -11,10 +11,10 @@ import java.util.ArrayList;
  */
 public class MainInterface extends JFrame implements ActionListener {
 	static ArrayList<Student> students = new ArrayList<>(); // 学生表
-	private static int index = 0; // 当前学生
 	static ArrayList<User> users = new ArrayList<>(); // 用户表
 	static User currentUser = null; // 当前用户
-	static int voteCount = 0;
+	static int voteCount = 0; // 投票数
+	private static int index = 0; // 当前学生
 
 	// 面板
 	private JPanel panelUser = new JPanel();
@@ -227,7 +227,7 @@ public class MainInterface extends JFrame implements ActionListener {
 					PromptDialog promptDialog = new PromptDialog(this, "投票失败", "投票数量已达上限");
 				}
 			} else {
-			    PromptDialog promptDialog = new PromptDialog(this, "投票失败", "您尚未登陆");
+				PromptDialog promptDialog = new PromptDialog(this, "投票失败", "您尚未登陆");
 			}
 		}
 		// 详细信息
@@ -241,8 +241,12 @@ public class MainInterface extends JFrame implements ActionListener {
 		}
 		// 注销
 		else if(e.getSource() == logoff) {
-		    currentUser = null;
+			currentUser = null;
 			refreshUser();
+		}
+		// 得票统计
+		else if(e.getSource() == pollStatistics) {
+			StatisticsDialog statisticsDialog = new StatisticsDialog(this, "得票统计", students);
 		}
 	}
 

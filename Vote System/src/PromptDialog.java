@@ -12,12 +12,12 @@ class PromptDialog extends Dialog implements ActionListener {
 	private JButton button = new JButton("确定");
 
 	/**
-	 * @param parent  父窗口
+	 * @param owner   父窗口
 	 * @param title   标题
 	 * @param context 提示内容
 	 */
-	PromptDialog(Frame parent, String title, String context) {
-		super(parent, title, true);
+	PromptDialog(Frame owner, String title, String context) {
+		super(owner, title, true);
 		setUp(context);
 		addWindowListener(new WindowCloser());
 		pack();

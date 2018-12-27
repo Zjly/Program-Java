@@ -170,4 +170,48 @@ class VoteService {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 将studentsList1中元素深拷贝到studentsList2中
+	 *
+	 * @param studentsList1 原列表
+	 * @param studentsList2 新列表
+	 */
+	static void copyStudentsList(ArrayList<Student> studentsList1, ArrayList<Student> studentsList2) {
+		for(Student student : studentsList1) {
+			Student newStudent = new Student();
+			newStudent.name = student.name;
+			newStudent.voteCounts = student.voteCounts;
+			studentsList2.add(newStudent);
+		}
+	}
+
+	/**
+	 * 根据票数从高到低排列学生
+	 *
+	 * @param students 学生列表
+	 */
+	static void sortByVoteCount(ArrayList<Student> students) {
+		Student temp = new Student();
+		for(int i = 0; i < students.size() - 1; i++) {
+			for(int j = i + 1; j < students.size(); j++) {
+				if(students.get(i).voteCounts < students.get(j).voteCounts) {
+					copyStudent(students.get(i), temp);
+					copyStudent(students.get(j), students.get(i));
+					copyStudent(temp, students.get(j));
+				}
+			}
+		}
+	}
+
+	/**
+	 * 将student1复制到student2中
+	 *
+	 * @param student1 原学生
+	 * @param student2 新学生
+	 */
+	private static void copyStudent(Student student1, Student student2) {
+		student2.name = student1.name;
+		student2.voteCounts = student1.voteCounts;
+	}
 }
