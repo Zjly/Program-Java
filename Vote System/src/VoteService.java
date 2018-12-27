@@ -214,4 +214,18 @@ class VoteService {
 		student2.name = student1.name;
 		student2.voteCounts = student1.voteCounts;
 	}
+
+	/**
+	 * 得到投票总数
+	 *
+	 * @param students 学会说呢列表
+	 * @return 投票总数
+	 */
+	static int getTotalVotes(ArrayList<Student> students) {
+		int totalVotes = 0;
+		for(Student student : students) {
+			totalVotes += student.voteCounts;
+		}
+		return totalVotes;
+	}
 }

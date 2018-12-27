@@ -22,6 +22,8 @@ class LoginDialog extends Dialog implements ActionListener {
 	private Frame owner;
 
 	/**
+	 * 构造函数
+	 *
 	 * @param owner 父窗口
 	 * @param title 标题
 	 */

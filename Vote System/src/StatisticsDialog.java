@@ -16,6 +16,7 @@ class StatisticsDialog extends Dialog {
 	private JScrollPane scrollPane = new JScrollPane(table); // 创建显示表格的滚动面板
 	private Vector<Vector<String>> data = new Vector<>(); // 数据行向量集
 	private Vector<String> columnName = new Vector<>(); // 列名向量
+	private JLabel totalVotes = new JLabel(); // 投票总数
 
 	/**
 	 * 构造函数
@@ -37,8 +38,10 @@ class StatisticsDialog extends Dialog {
 	 * 控件设置
 	 */
 	private void setUp() {
+		setLayout(new BorderLayout());
 		setTable();
 		updateData();
+		setText();
 	}
 
 	/**
@@ -56,7 +59,16 @@ class StatisticsDialog extends Dialog {
 		table.getColumnModel().getColumn(0).setMaxWidth(200);
 		table.getColumnModel().getColumn(1).setMaxWidth(200);
 
-		add(scrollPane);
+		add("North", scrollPane);
+	}
+
+	/**
+	 * 设置显示文字
+	 */
+	private void setText() {
+		totalVotes.setText("总投票数: " + VoteService.getTotalVotes(students));
+		totalVotes.setFont(new Font("", Font.PLAIN, 20));
+		add("South", totalVotes);
 	}
 
 	/**

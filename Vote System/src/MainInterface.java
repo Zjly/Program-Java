@@ -33,7 +33,7 @@ public class MainInterface extends JFrame implements ActionListener {
 	// 统计菜单
 	private JMenu statistics = new JMenu("统计");
 	private JMenuItem pollStatistics = new JMenuItem("得票统计");
-	private JMenuItem detailedInformation = new JMenuItem("详细信息");
+	private JMenuItem pollChart = new JMenuItem("图表显示");
 
 	// 功能按钮
 	private JButton buttonPrevious = new JButton();
@@ -87,13 +87,13 @@ public class MainInterface extends JFrame implements ActionListener {
 
 		// 统计菜单添加
 		statistics.add(pollStatistics);
-		statistics.add(detailedInformation);
+		statistics.add(pollChart);
 
 		// 监听按钮
 		login.addActionListener(this);
 		logoff.addActionListener(this);
 		pollStatistics.addActionListener(this);
-		detailedInformation.addActionListener(this);
+		pollChart.addActionListener(this);
 
 		setJMenuBar(menuBar);
 	}
@@ -247,6 +247,10 @@ public class MainInterface extends JFrame implements ActionListener {
 		// 得票统计
 		else if(e.getSource() == pollStatistics) {
 			StatisticsDialog statisticsDialog = new StatisticsDialog(this, "得票统计", students);
+		}
+		// 图表显示
+		else if(e.getSource() == pollChart) {
+			ChartDialog chartDialog = new ChartDialog(this, students);
 		}
 	}
 
