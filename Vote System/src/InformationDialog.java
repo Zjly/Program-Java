@@ -35,13 +35,12 @@ class InformationDialog extends Dialog {
 		ImageIcon image = new ImageIcon(student.imagePath);
 		JLabel labelImage = new JLabel(image);
 		JLabel labelName = new JLabel(student.name);
-		JTextArea textIntroduce = new JTextArea("   " + student.detailedInformation, 5, 40);
+		JTextArea textIntroduce = new JTextArea("       " + student.detailedInformation, 5, 25);
 		textIntroduce.setLineWrap(true);
 
 		labelName.setFont(new Font("", Font.BOLD, 20));
 		textIntroduce.setFont(new Font("", Font.PLAIN, 15));
 		textIntroduce.setEditable(false);
-		textIntroduce.setColumns(10);
 
 		// ∞⁄∑≈…Ë÷√
 		panelPhoto.add(labelImage);
