@@ -45,9 +45,9 @@ class ChartDialog extends Dialog {
 				"得票数", // 数值轴的显示标签
 				dataset, // 数据集
 				PlotOrientation.VERTICAL, // 图表方向：水平、垂直
-				false,           // 是否显示图例(对于简单的柱状图必须是false)
-				false,          // 是否生成工具
-				false           // 是否生成URL链接
+				false, // 是否显示图例
+				false, // 是否生成工具
+				false // 是否生成URL链接
 		);
 
 		CategoryPlot plot = chart.getCategoryPlot(); // 获取图表区域对象
