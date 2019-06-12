@@ -15,12 +15,12 @@ class LL1AnalysisTableTest {
 	private static Set nonTerminalSymbolSet;
 	private static ProductionUnit beginningSymbol;
 
-	LL1AnalysisTableTest() throws Exception {
+	LL1AnalysisTableTest() {
 		productionArrayList = new ArrayList<>();
 		terminalSymbolSet = new Set();
 		nonTerminalSymbolSet = new Set();
 		beginningSymbol = new ProductionUnit();
-		readProductionFromFile("E:\\Study\\大二下\\编译技术及应用\\实习\\Code\\src\\Program2\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		readProductionFromFile("E:\\Study\\大二下\\编译技术及应用\\实习\\Code\\src\\Program2\\Files\\test", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 		table = new LL1AnalysisTable(productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 	}
 
