@@ -6,9 +6,7 @@ import Program2.Model.ProductionUnit;
 import Program2.Model.Set;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static Program2.Tools.BaseOperationTool.*;
@@ -140,23 +138,5 @@ public class FileOperationTool {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * 从文件中读取开始符号
-	 *
-	 * @param filePath 文件路径
-	 * @return 开始符号
-	 */
-	public static String readBeginningSymbolFromFile(String filePath) {
-		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
-			String line = bufferedReader.readLine();
-			return line.replace("<", "").replace(">", "");
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 }

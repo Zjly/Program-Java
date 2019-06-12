@@ -13,15 +13,22 @@ import static Program1.Tools.LexicalAnalysisTool.*;
  */
 public class LexicalAnalysis {
 	public static void main(String[] args) {
-		running();
+		// 得到词法分析后的单词串数组
+		ArrayList<WordString> wordStringArrayList = lexicalAnalysis("src\\Program1\\Files\\Data");
+
+		// 将单词串写入文件中
+		writeDataToFile("src\\Program1\\Files\\Result", wordStringArrayList);
 	}
 
 	/**
-	 * 运行程序
+	 * 对源代码进行词法分析
+	 *
+	 * @param filepath 源代码文件路径
+	 * @return 词法分析结果——单词串
 	 */
-	private static void running() {
+	public static ArrayList<WordString> lexicalAnalysis(String filepath) {
 		// 源代码数组
-		ArrayList<String> sourceArrayList = readDataFromFile("src\\Program1\\Files\\Data");
+		ArrayList<String> sourceArrayList = readDataFromFile(filepath);
 
 		// 单词串数组
 		ArrayList<WordString> wordStringArrayList = new ArrayList<>();
@@ -84,7 +91,6 @@ public class LexicalAnalysis {
 			}
 		}
 
-		// 将单词串写入文件中
-		writeDataToFile("src\\Program1\\Files\\Result", wordStringArrayList);
+		return wordStringArrayList;
 	}
 }

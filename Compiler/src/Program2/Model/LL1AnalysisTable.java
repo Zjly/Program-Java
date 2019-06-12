@@ -23,7 +23,7 @@ public class LL1AnalysisTable {
 	 * @param nonTerminalSymbolSet 非终结符号集
 	 * @param beginningUnit        初始符号
 	 */
-	public LL1AnalysisTable(ArrayList<Production> productionArrayList, Set terminalSymbolSet, Set nonTerminalSymbolSet, ProductionUnit beginningUnit) throws Exception {
+	public LL1AnalysisTable(ArrayList<Production> productionArrayList, Set terminalSymbolSet, Set nonTerminalSymbolSet, ProductionUnit beginningUnit) {
 		initHashMap(terminalSymbolSet, nonTerminalSymbolSet);
 		initTable(productionArrayList, terminalSymbolSet, beginningUnit);
 	}
@@ -78,7 +78,7 @@ public class LL1AnalysisTable {
 	 * @param productionArrayList 产生式数组
 	 * @param terminalSymbolSet   终结符号集
 	 */
-	private void initTable(ArrayList<Production> productionArrayList, Set terminalSymbolSet, ProductionUnit beginningUnit) throws Exception {
+	private void initTable(ArrayList<Production> productionArrayList, Set terminalSymbolSet, ProductionUnit beginningUnit) {
 		analysisTable = new ProductionPart[nonTerminalSymbolHashMap.size()][terminalSymbolHashMap.size()];
 
 		for(Production production : productionArrayList) {
@@ -86,21 +86,25 @@ public class LL1AnalysisTable {
 				ProductionPart productionPart = production.getRightPart(i);
 
 				// 对FIRST(α)中的每一终结符号a，置M[A，a]= “A→α”
-				Set FIRSTSet = getFIRSTSet(productionArrayList, productionPart);
-				for(int j = 0; j < FIRSTSet.getSize(); j++) {
-					String element = FIRSTSet.getSet(j);
-					if(terminalSymbolSet.haveSet(element)) {
-						addElement(productionPart, production.getLeftPart().getUnitContent(), element);
+				try {
+					Set FIRSTSet = getFIRSTSet(productionArrayList, productionPart);
+					for(int j = 0; j < FIRSTSet.getSize(); j++) {
+						String element = FIRSTSet.getSet(j);
+						if(terminalSymbolSet.haveSet(element)) {
+							addElement(productionPart, production.getLeftPart().getUnitContent(), element);
+						}
 					}
-				}
 
-				// 如果ε∈FIRST(α)，则对于属于FOLLOW(A)的每一个终结符号b或$，分别置M[A，b]=“A→x”和M[A，$]= “A→x”
-				if(FIRSTSet.haveSet("ε")) {
-					Set FOLLOWSet = getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart());
-					for(int j = 0; j < FOLLOWSet.getSize(); j++) {
-						String element = FOLLOWSet.getSet(j);
-						addElement(productionPart, production.getLeftPart().getUnitContent(), element);
+					// 如果ε∈FIRST(α)，则对于属于FOLLOW(A)的每一个终结符号b或$，分别置M[A，b]=“A→x”和M[A，$]= “A→x”
+					if(FIRSTSet.haveSet("ε")) {
+						Set FOLLOWSet = getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart());
+						for(int j = 0; j < FOLLOWSet.getSize(); j++) {
+							String element = FOLLOWSet.getSet(j);
+							addElement(productionPart, production.getLeftPart().getUnitContent(), element);
+						}
 					}
+				} catch(Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
