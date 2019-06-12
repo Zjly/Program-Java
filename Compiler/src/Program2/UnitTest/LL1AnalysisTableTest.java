@@ -26,25 +26,25 @@ class LL1AnalysisTableTest {
 
 	@Test
 	void displayTable() {
-		System.out.print("\t\t");
+		System.out.print("        ");
 		for(int i = 0; i < terminalSymbolSet.getSize(); i++) {
-			System.out.print(terminalSymbolSet.getSet(i) + "\t\t");
+			System.out.print(terminalSymbolSet.getSet(i) + "            ");
 		}
-		System.out.print("$" + "\t\t");
+		System.out.print("$" + "        ");
 		System.out.println();
 
 		for(int i = 0; i < nonTerminalSymbolSet.getSize(); i++) {
 			String row = nonTerminalSymbolSet.getSet(i);
-			System.out.print(row + "\t\t");
+			System.out.print(row + "        ");
 			for(int j = 0; j < terminalSymbolSet.getSize(); j++) {
 				String col = terminalSymbolSet.getSet(j);
 
 				ProductionPart productionPart = table.getElement(row, col);
-				System.out.print(productionPart + "\t\t");
+				System.out.print(productionPart + "        ");
 			}
 			String col = "$";
 			ProductionPart productionPart = table.getElement(row, col);
-			System.out.print(productionPart + "\t\t");
+			System.out.print(productionPart + "        ");
 
 			System.out.println();
 		}
