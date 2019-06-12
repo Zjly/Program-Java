@@ -73,6 +73,41 @@ public class FileOperationTool {
 	}
 
 	/**
+	 * 从文件中读入类别编号并创建哈希表
+	 * 文件格式：单词符号 类别编号
+	 *
+	 * @param filePath 文件路径
+	 * @return 类别编号哈希表
+	 */
+	public static HashMap<Integer, String> readCategoryNumberFromFile(String filePath) {
+		// 建立哈希表储存关键字
+		HashMap<Integer, String> hashMap = new HashMap<>();
+
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
+
+			// 按行读取字符
+			String line;
+			while((line = bufferedReader.readLine()) != null) {
+				// 将行分隔
+				String[] strings = line.split("\t");
+				if(strings.length != 2) {
+					throw new Exception("符号表文件错误!");
+				}
+
+				// 将单词符号以及类别编号填入哈希表中
+				hashMap.put(Integer.valueOf(strings[1]), strings[0]);
+			}
+
+			bufferedReader.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return hashMap;
+	}
+
+	/**
 	 * 将单词串写入文件中
 	 *
 	 * @param filePath            文件路径

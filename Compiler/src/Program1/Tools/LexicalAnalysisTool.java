@@ -16,9 +16,6 @@ public class LexicalAnalysisTool {
 	// 关键词哈希表
 	private static HashMap<String, Integer> keywordHashMap = readWordSymbolsFromFile("src\\Program1\\Files\\keywords");
 
-	// 符号哈希表
-	private static HashMap<String, Integer> symbolsHashMap = readWordSymbolsFromFile("src\\Program1\\Files\\Symbols");
-
 	// 字符串引号计数
 	private static boolean isBeginString = false;
 
@@ -135,59 +132,59 @@ public class LexicalAnalysisTool {
 					// 注释后方行内容无需分析，可直接返回行末尾索引
 					return line.length();
 				} else {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "/"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "/"));
 				}
 				break;
 			case '=':
 				if(isNotEnd(line, index) && line.charAt(index + 1) == '=') {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "=="));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "=="));
 					index++;
 				} else {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "="));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "="));
 				}
 				break;
 			case '>':
 				if(isNotEnd(line, index) && line.charAt(index + 1) == '=') {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, ">="));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, ">="));
 					index++;
 				} else {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, ">"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, ">"));
 				}
 				break;
 			case '<':
 				if(isNotEnd(line, index) && line.charAt(index + 1) == '=') {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "<="));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "<="));
 					index++;
 				} else {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "<"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "<"));
 				}
 				break;
 			case '&':
 				if(isNotEnd(line, index) && line.charAt(index + 1) == '&') {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "&&"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "&&"));
 					index++;
 				} else {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "&"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "&"));
 				}
 				break;
 			case '|':
 				if(isNotEnd(line, index) && line.charAt(index + 1) == '|') {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "||"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "||"));
 					index++;
 				} else {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "|"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "|"));
 				}
 				break;
 			case '!':
 				if(isNotEnd(line, index) && line.charAt(index + 1) == '=') {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "!="));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "!="));
 					index++;
 				} else {
-					wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "!"));
+					wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "!"));
 				}
 				break;
 			case '\"':
-				wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, "\""));
+				wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, "\""));
 				isBeginString = !isBeginString;
 
 				// 如果是字符串的开始则调用字符串的词法分析程序
@@ -199,11 +196,11 @@ public class LexicalAnalysisTool {
 
 				break;
 			default:
-				// 其余情况查符号哈希表并填入类别编码
-				wordString.setCategoryCode(getSymbolsCategoryCode(symbolsHashMap, String.valueOf(character)));
+				// 其余情况查哈希表并填入类别编码
+				wordString.setCategoryCode(getSymbolsCategoryCode(keywordHashMap, String.valueOf(character)));
 
 				if(wordString.getCategoryCode() == 0) {
-					throw new Exception("字符" + character + "识别失败!");
+					throw new Exception("字符(" + character + ")识别失败!");
 				}
 		}
 
