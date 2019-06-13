@@ -39,6 +39,7 @@ public class FileOperationTool {
 			line = bufferedReader.readLine();
 			beginningUnit.setUnitContent(line.replace("<", "").replace(">", ""));
 			beginningUnit.setTerminals(false);
+			nonTerminalSymbolSet.addSet(beginningUnit.getUnitContent());
 
 			// 读取文法产生式
 			while((line = bufferedReader.readLine()) != null) {

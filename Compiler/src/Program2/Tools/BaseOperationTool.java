@@ -1,7 +1,14 @@
 package Program2.Tools;
 
+import Program1.Model.WordString;
+import Program2.Model.Node;
+
+import java.util.HashMap;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static Program1.Tools.FileOperationTool.readWordSymbolsFromFile;
 
 /**
  * 基础操作工具类
@@ -46,5 +53,53 @@ public class BaseOperationTool {
 		Matcher m = p.matcher(character + "");
 
 		return m.find();
+	}
+
+	/**
+	 * 得到输入符号的字符串
+	 *
+	 * @param categoryNumberHashMap 类别编号哈希表
+	 * @param wordString            输入符号单词串
+	 * @return 输入符号的字符串
+	 */
+	public static String getInputString(HashMap<Integer, String> categoryNumberHashMap, WordString wordString) {
+		if(categoryNumberHashMap.get(wordString.getCategoryCode()) != null) {
+			return categoryNumberHashMap.get(wordString.getCategoryCode());
+		} else {
+			return wordString.getSymbolTable().getContent();
+		}
+	}
+
+	/**
+	 * 获取字符栈内内容并转化为字符串
+	 *
+	 * @param stack 待获取的栈
+	 * @return 栈内容字符串
+	 */
+	public static String getSymbolStackContent(Stack<Node> stack) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		for(Node node : stack) {
+			stringBuilder.append(node.getContent());
+		}
+
+		return stringBuilder.toString();
+	}
+
+	/**
+	 * 获取输入栈内内容并转化为字符串
+	 *
+	 * @param categoryNumberHashMap 类别编码哈希表
+	 * @param stack                 待获取的栈
+	 * @return 栈内容字符串
+	 */
+	public static String getInputStackContent(HashMap<Integer, String> categoryNumberHashMap, Stack<WordString> stack) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		for(WordString wordString : stack) {
+			stringBuilder.append(getInputString(categoryNumberHashMap, wordString));
+		}
+
+		return stringBuilder.toString();
 	}
 }
