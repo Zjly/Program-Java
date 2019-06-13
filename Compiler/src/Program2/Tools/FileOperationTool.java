@@ -5,9 +5,9 @@ import Program2.Model.ProductionPart;
 import Program2.Model.ProductionUnit;
 import Program2.Model.Set;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static Program2.Tools.BaseOperationTool.*;
 
@@ -136,6 +136,25 @@ public class FileOperationTool {
 
 			bufferedReader.close();
 		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 将语法分析过程写入文件
+	 * @param filepath 文件路径
+	 * @param analysisLog 过程数组
+	 */
+	public static void writeLogToFile(String filepath, ArrayList<String> analysisLog) {
+		try {
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath));
+
+			for(String s : analysisLog) {
+				bufferedWriter.write(s + "\n");
+			}
+
+			bufferedWriter.close();
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}

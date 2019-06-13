@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
-import static Program2.Tools.BaseOperationTool.getInputString;
+import static Program2.Tools.BaseOperationTool.*;
 
 public class GrammaticalAnalysis {
 	public static void main(String[] args) {
@@ -65,9 +65,26 @@ public class GrammaticalAnalysis {
 		// 当前输入元素
 		WordString inputTop = inputStack.pop();
 
+		// 分析过程
+		ArrayList<String> analysisLog = new ArrayList<>();
+
 		// 语法分析过程
 		while(true) {
+			// 当前状态过程
+			StringBuilder stringBuilder = new StringBuilder();
+			String symbolStackString = getStackContent(symbolStack);
+			String inputStackString = getInputStackContent(categoryNumberHashMap, inputStack);
+			stringBuilder.append(analysisLog.size() + 1).append("\t\t");
+			stringBuilder.append(symbolStackString).append("\t\t");
+			stringBuilder.append(symbolTop).append("\t\t");
+			if(inputTop != null) {
+				stringBuilder.append(getInputString(categoryNumberHashMap, inputTop)).append("\t\t");
+			}
+			stringBuilder.append(inputStackString).append("\t\t");
+			analysisLog.add(stringBuilder.toString());
+
 			// 检查栈顶元素是否是终结符号
+			assert inputTop != null;
 			if(terminalSymbolSet.haveSet(symbolTop)) {
 				// 如果是终结符号，与当前输入进行对比，若两者相同则此符号分析成功
 				if(symbolTop.equals(getInputString(categoryNumberHashMap, inputTop))) {
@@ -86,7 +103,7 @@ public class GrammaticalAnalysis {
 				// 如若两边都为$，则分析成功
 				if(symbolTop.equals("$") && inputTopString.equals("$")) {
 					System.out.println("分析成功！");
-					return;
+					break;
 				}
 
 				// 查询LL(1)分析表，找到对应文法产生式
@@ -105,5 +122,8 @@ public class GrammaticalAnalysis {
 				symbolTop = symbolStack.peek();
 			}
 		}
+
+		// 将过程写入文件
+		FileOperationTool.writeLogToFile("src\\Program2\\Files\\Log", analysisLog);
 	}
 }
