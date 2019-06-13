@@ -35,7 +35,11 @@ public class LL1AnalysisTable {
 	 * @param terminalSymbol    列索引，终结符号
 	 * @return 指定位置的分析表元素
 	 */
-	public ProductionPart getElement(String nonTerminalSymbol, String terminalSymbol) {
+	public ProductionPart getElement(String nonTerminalSymbol, String terminalSymbol) throws Exception {
+		if(!nonTerminalSymbolHashMap.containsKey(nonTerminalSymbol) || !terminalSymbolHashMap.containsKey(terminalSymbol)) {
+		    throw new Exception("找不到(" + nonTerminalSymbol + ", " + terminalSymbol + ")的分析表索引");
+		}
+
 		int row = nonTerminalSymbolHashMap.get(nonTerminalSymbol);
 		int col = terminalSymbolHashMap.get(terminalSymbol);
 

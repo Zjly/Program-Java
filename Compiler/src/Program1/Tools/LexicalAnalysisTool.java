@@ -14,7 +14,7 @@ import static Program1.Tools.FileOperationTool.*;
  */
 public class LexicalAnalysisTool {
 	// 关键词哈希表
-	private static HashMap<String, Integer> keywordHashMap = readWordSymbolsFromFile("src\\Program1\\Files\\keywords");
+	private static HashMap<String, Integer> keywordHashMap = readWordSymbolsFromFile("src\\Files\\keywords");
 
 	// 字符串引号计数
 	private static boolean isBeginString = false;

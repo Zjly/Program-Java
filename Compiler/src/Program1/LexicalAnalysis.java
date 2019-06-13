@@ -14,10 +14,10 @@ import static Program1.Tools.LexicalAnalysisTool.*;
 public class LexicalAnalysis {
 	public static void main(String[] args) {
 		// 得到词法分析后的单词串数组
-		ArrayList<WordString> wordStringArrayList = lexicalAnalysis("src\\Program1\\Files\\Data");
+		ArrayList<WordString> wordStringArrayList = lexicalAnalysis("src\\Files\\Program");
 
 		// 将单词串写入文件中
-		writeDataToFile("src\\Program1\\Files\\Result", wordStringArrayList);
+		writeDataToFile("src\\Files\\LexicalAnalysisResult", wordStringArrayList);
 	}
 
 	/**

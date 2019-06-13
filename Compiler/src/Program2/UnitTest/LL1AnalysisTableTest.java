@@ -20,12 +20,12 @@ class LL1AnalysisTableTest {
 		terminalSymbolSet = new Set();
 		nonTerminalSymbolSet = new Set();
 		beginningSymbol = new ProductionUnit();
-		readProductionFromFile("src\\Program2\\Files\\test", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 		table = new LL1AnalysisTable(productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 	}
 
 	@Test
-	void displayTable() {
+	void displayTable() throws Exception {
 		System.out.print("        ");
 		for(int i = 0; i < terminalSymbolSet.getSize(); i++) {
 			System.out.print(terminalSymbolSet.getSet(i) + "            ");

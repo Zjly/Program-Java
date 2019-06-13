@@ -88,7 +88,7 @@ public class FileOperationTool {
 							stringBuilder.append(s.charAt(index));
 
 							// 下一个字符若为字母或数字则继续进行拼词
-							while(isNotEnd(s, index) && (isLetter(s.charAt(index + 1)) || isDigit(s.charAt(index + 1)) || isChinese(s.charAt(index + 1)))) {
+							while(isNotEnd(s, index) && s.charAt(index + 1) != '>') {
 								index++;
 								stringBuilder.append(s.charAt(index));
 							}

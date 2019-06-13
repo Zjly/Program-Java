@@ -24,7 +24,7 @@ class GrammaticalAnalysisToolTest {
 		terminalSymbolSet = new Set();
 		nonTerminalSymbolSet = new Set();
 		beginningSymbol = new ProductionUnit();
-		readProductionFromFile("src\\Program2\\Files\\test", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 	}
 
 	@Test

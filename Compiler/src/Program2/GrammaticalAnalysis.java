@@ -37,13 +37,13 @@ public class GrammaticalAnalysis {
 		ProductionUnit beginningSymbol = new ProductionUnit();
 
 		// 读取文件并初始化一系列文法数组与集合
-		FileOperationTool.readProductionFromFile("src\\Program2\\Files\\test", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		FileOperationTool.readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 
 		// 进行词法分析，建立输入串符号表
-		ArrayList<WordString> wordStringArrayList = LexicalAnalysis.lexicalAnalysis("src\\Program1\\Files\\test");
+		ArrayList<WordString> wordStringArrayList = LexicalAnalysis.lexicalAnalysis("src\\Files\\testProgram");
 
 		// 建立类别符号哈希表，可以通过词法分析结果的类别符号找到对应的单词符号
-		HashMap<Integer, String> categoryNumberHashMap = Program1.Tools.FileOperationTool.readCategoryNumberFromFile("src\\Program1\\Files\\Keywords");
+		HashMap<Integer, String> categoryNumberHashMap = Program1.Tools.FileOperationTool.readCategoryNumberFromFile("src\\Files\\Keywords");
 
 		// 建立文法的LL(1)分析表
 		LL1AnalysisTable analysisTable = new LL1AnalysisTable(productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
@@ -65,14 +65,14 @@ public class GrammaticalAnalysis {
 		// 当前输入元素
 		WordString inputTop = inputStack.pop();
 
-		// 分析过程
+		// 分析过程文档
 		ArrayList<String> analysisLog = new ArrayList<>();
 
 		// 语法分析过程
 		while(true) {
 			// 当前状态过程
 			StringBuilder stringBuilder = new StringBuilder();
-			String symbolStackString = getStackContent(symbolStack);
+			String symbolStackString = getSymbolStackContent(symbolStack);
 			String inputStackString = getInputStackContent(categoryNumberHashMap, inputStack);
 			stringBuilder.append(analysisLog.size() + 1).append("\t\t");
 			stringBuilder.append(symbolStackString).append("\t\t");
@@ -124,6 +124,6 @@ public class GrammaticalAnalysis {
 		}
 
 		// 将过程写入文件
-		FileOperationTool.writeLogToFile("src\\Program2\\Files\\Log", analysisLog);
+		FileOperationTool.writeLogToFile("src\\Files\\Log", analysisLog);
 	}
 }
