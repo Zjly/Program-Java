@@ -122,12 +122,16 @@ public class GrammaticalAnalysisTool {
 	 * @return 该产生式单元的FIRST集
 	 */
 	private static Set getFIRSTSet(ArrayList<Production> productionArrayList, ProductionUnit specificUnit) throws Exception {
-		Production production = getProductionByContent(productionArrayList, specificUnit.getUnitContent());
 		Set set = new Set();
+		if(specificUnit.isTerminals()) {
+			set.addSet(specificUnit.getUnitContent());
+		} else {
+			Production production = getProductionByContent(productionArrayList, specificUnit.getUnitContent());
 
-		for(int i = 0; i < production.getRightPartSize(); i++) {
-			ProductionPart productionPart = production.getRightPart(i);
-			set.addSet(getFIRSTSet(productionArrayList, productionPart));
+			for(int i = 0; i < production.getRightPartSize(); i++) {
+				ProductionPart productionPart = production.getRightPart(i);
+				set.addSet(getFIRSTSet(productionArrayList, productionPart));
+			}
 		}
 
 		return set;
@@ -204,7 +208,9 @@ public class GrammaticalAnalysisTool {
 
 					// A→αBβ而FIRST(β)含有ε，则FOLLOW(A)的元素属于FOLLOW(B)
 					if(getFIRSTSet(productionArrayList, productionPartAfterUnit).haveSet("ε")) {
-						set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart()));
+						if(!production.getLeftPart().getUnitContent().equals(specificUnit.getUnitContent())) {
+							set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart()));
+						}
 					}
 
 					// A→αB，则FOLLOW(A)的元素属于FOLLOW(B)
@@ -236,7 +242,10 @@ public class GrammaticalAnalysisTool {
 
 				// 判断该部分是否包含给定单元
 				if(productionPart.haveUnit(specificUnit.getUnitContent())) {
-					container.add(production);
+					// 表达式是否加入过
+					if(!container.contains(production)) {
+						container.add(production);
+					}
 				}
 			}
 		}

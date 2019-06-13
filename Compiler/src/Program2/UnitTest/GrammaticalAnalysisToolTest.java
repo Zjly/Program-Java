@@ -24,7 +24,7 @@ class GrammaticalAnalysisToolTest {
 		terminalSymbolSet = new Set();
 		nonTerminalSymbolSet = new Set();
 		beginningSymbol = new ProductionUnit();
-		readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		readProductionFromFile("src\\Files\\Grammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 	}
 
 	@Test
@@ -37,6 +37,14 @@ class GrammaticalAnalysisToolTest {
 					Set set = GrammaticalAnalysisTool.getFIRSTSet(productionArrayList, productionPart);
 					System.out.println(set);
 				}
+			}
+
+			for(Production production : productionArrayList) {
+				ProductionPart productionPart = new ProductionPart();
+				productionPart.addUnit(production.getLeftPart());
+				Set set = GrammaticalAnalysisTool.getFIRSTSet(productionArrayList, productionPart);
+
+				System.out.println(set);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

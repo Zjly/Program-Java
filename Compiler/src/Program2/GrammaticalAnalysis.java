@@ -12,18 +12,16 @@ import java.util.Stack;
 import static Program2.Tools.BaseOperationTool.*;
 
 public class GrammaticalAnalysis {
-	public static void main(String[] args) {
-		try {
-			grammaticalAnalysis();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws Exception {
+		grammaticalAnalysis();
 	}
 
 	/**
 	 * 语法分析
+	 *
+	 * @return 语法树根节点
 	 */
-	private static void grammaticalAnalysis() throws Exception {
+	public static Node grammaticalAnalysis() throws Exception {
 		// 文法产生式数组
 		ArrayList<Production> productionArrayList = new ArrayList<>();
 
@@ -48,10 +46,13 @@ public class GrammaticalAnalysis {
 		// 建立文法的LL(1)分析表
 		LL1AnalysisTable analysisTable = new LL1AnalysisTable(productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 
+		// 语法树根节点
+		Node tree = new Node(beginningSymbol.getUnitContent());
+
 		// 符号栈
-		Stack<String> symbolStack = new Stack<>();
-		symbolStack.push("$");
-		symbolStack.push(beginningSymbol.getUnitContent());
+		Stack<Node> symbolStack = new Stack<>();
+		symbolStack.push(new Node("$"));
+		symbolStack.push(tree);
 
 		// 输入栈
 		Stack<WordString> inputStack = new Stack<>();
@@ -60,7 +61,7 @@ public class GrammaticalAnalysis {
 		}
 
 		// 符号栈顶元素
-		String symbolTop = symbolStack.peek();
+		Node symbolTop = symbolStack.peek();
 
 		// 当前输入元素
 		WordString inputTop = inputStack.pop();
@@ -76,7 +77,7 @@ public class GrammaticalAnalysis {
 			String inputStackString = getInputStackContent(categoryNumberHashMap, inputStack);
 			stringBuilder.append(analysisLog.size() + 1).append("\t\t");
 			stringBuilder.append(symbolStackString).append("\t\t");
-			stringBuilder.append(symbolTop).append("\t\t");
+			stringBuilder.append(symbolTop.getContent()).append("\t\t");
 			if(inputTop != null) {
 				stringBuilder.append(getInputString(categoryNumberHashMap, inputTop)).append("\t\t");
 			}
@@ -85,14 +86,14 @@ public class GrammaticalAnalysis {
 
 			// 检查栈顶元素是否是终结符号
 			assert inputTop != null;
-			if(terminalSymbolSet.haveSet(symbolTop)) {
+			if(terminalSymbolSet.haveSet(symbolTop.getContent())) {
 				// 如果是终结符号，与当前输入进行对比，若两者相同则此符号分析成功
-				if(symbolTop.equals(getInputString(categoryNumberHashMap, inputTop))) {
+				if(symbolTop.getContent().equals(getInputString(categoryNumberHashMap, inputTop))) {
 					symbolStack.pop();
 					symbolTop = symbolStack.peek();
 					inputTop = inputStack.pop();
 				} else {
-				    throw new Exception("分析失败，失败符号串: " + inputTop);
+					throw new Exception("分析失败，失败符号串: " + inputTop);
 				}
 			}
 
@@ -101,29 +102,39 @@ public class GrammaticalAnalysis {
 				String inputTopString = getInputString(categoryNumberHashMap, inputTop);
 
 				// 如若两边都为$，则分析成功
-				if(symbolTop.equals("$") && inputTopString.equals("$")) {
+				if(symbolTop.getContent().equals("$") && inputTopString.equals("$")) {
 					System.out.println("分析成功！");
 					break;
 				}
 
 				// 查询LL(1)分析表，找到对应文法产生式
-			    ProductionPart productionPart = analysisTable.getElement(symbolTop, inputTopString);
+				ProductionPart productionPart = analysisTable.getElement(symbolTop.getContent(), inputTopString);
 
 				// 出栈原本栈顶符号
-			    symbolStack.pop();
+				Node parentNode = symbolStack.pop();
 
-			    // 反序入栈文法产生式内符号
-				for(int i = productionPart.getUnitSize() - 1; i >= 0; i--) {
-					if(productionPart.getUnit(i).getUnitContent().equals("ε")) {
-					    continue;
-					}
-					symbolStack.push(productionPart.getUnit(i).getUnitContent());
+				// 建立子树
+				for(int i = 0; i < productionPart.getUnitSize(); i++) {
+					Node childNode = new Node(productionPart.getUnit(i).getUnitContent());
+					childNode.setParentNode(parentNode);
+					parentNode.addChild(childNode);
 				}
+
+				// 反序入栈文法产生式内符号
+				for(int i = parentNode.getSize() - 1; i >= 0; i--) {
+					if(parentNode.getNode(i).getContent().equals("ε")) {
+						continue;
+					}
+					symbolStack.push(parentNode.getNode(i));
+				}
+
 				symbolTop = symbolStack.peek();
 			}
 		}
 
 		// 将过程写入文件
 		FileOperationTool.writeLogToFile("src\\Files\\Log", analysisLog);
+
+		return tree;
 	}
 }

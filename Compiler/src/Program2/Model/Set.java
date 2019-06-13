@@ -100,6 +100,6 @@ public class Set {
 				stringBuilder.append(", ");
 			}
 		}
-		return name + "={" + stringBuilder.toString() + "}";
+		return "¼¯ºÏ(" + name + ") = {" + stringBuilder.toString() + "}";
 	}
 }

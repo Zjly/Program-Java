@@ -11,7 +11,7 @@ class BaseOperationToolTest {
 	@Test
 	void isChinese() {
 		char test1 = '°¡';
-		char test2 = 'a';
+		char test2 = ' ';
 
 		assertTrue(BaseOperationTool.isChinese(test1));
 		assertFalse(BaseOperationTool.isChinese(test2));

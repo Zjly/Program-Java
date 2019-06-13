@@ -52,7 +52,7 @@ public class FileOperationTool {
 				// 将文法产生式分为左部和右部
 				String[] strings = line.split("→");
 				if(strings.length != 2) {
-					throw new Exception("Grammar file error!");
+					throw new Exception("文法文件错误，错误行：" + line);
 				}
 
 				// 产生式左部
@@ -87,10 +87,18 @@ public class FileOperationTool {
 							StringBuilder stringBuilder = new StringBuilder();
 							stringBuilder.append(s.charAt(index));
 
-							// 下一个字符若为字母或数字则继续进行拼词
-							while(isNotEnd(s, index) && s.charAt(index + 1) != '>') {
-								index++;
-								stringBuilder.append(s.charAt(index));
+							if(!isTerminal) {
+								// 下一个字符不为>则继续拼词
+								while(isNotEnd(s, index) && s.charAt(index + 1) != '>') {
+									index++;
+									stringBuilder.append(s.charAt(index));
+								}
+							} else {
+								// 下一个字符若为字母或数字则继续进行拼词
+								while(isNotEnd(s, index) && (isLetter(s.charAt(index + 1)) || isDigit(s.charAt(index + 1)) || isChinese(s.charAt(index + 1)))) {
+									index++;
+									stringBuilder.append(s.charAt(index));
+								}
 							}
 
 							// 结束拼词并填写产生式单元
@@ -110,21 +118,87 @@ public class FileOperationTool {
 
 						// 符号处理
 						else {
+							ProductionUnit productionUnit = new ProductionUnit();
 							switch(character) {
 								case '<':
-									isTerminal = false;
-									break;
+									if(!isNotEnd(s, index)) {
+										productionUnit.setUnitContent("<");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										break;
+									} else if(isNotEnd(s, index) && s.charAt(index + 1) == '=') {
+										productionUnit.setUnitContent("<=");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										index++;
+										break;
+									} else {
+										isTerminal = false;
+										break;
+									}
 								case '>':
-									isTerminal = true;
-									break;
+									if(!isTerminal) {
+										isTerminal = true;
+										break;
+									} else if(isNotEnd(s, index) && s.charAt(index + 1) == '=') {
+										productionUnit.setUnitContent(">=");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										index++;
+										break;
+									} else {
+										productionUnit.setUnitContent(">");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										break;
+									}
+								case '&':
+									if(isNotEnd(s, index) && s.charAt(index + 1) == '&') {
+										productionUnit.setUnitContent("&&");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										index++;
+										break;
+									} else {
+										productionUnit.setUnitContent("&");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										break;
+									}
+								case '|':
+									if(isNotEnd(s, index) && s.charAt(index + 1) == '|') {
+										productionUnit.setUnitContent("||");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										index++;
+										break;
+									} else {
+										productionUnit.setUnitContent("|");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										break;
+									}
+								case '=':
+									if(isNotEnd(s, index) && s.charAt(index + 1) == '=') {
+										productionUnit.setUnitContent("==");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										index++;
+										break;
+									} else {
+										productionUnit.setUnitContent("=");
+										productionPart.addUnit(productionUnit);
+										productionUnit.setTerminals(true);
+										break;
+									}
 								default:
-									ProductionUnit productionUnit = new ProductionUnit();
 									productionUnit.setUnitContent(String.valueOf(character));
 									productionPart.addUnit(productionUnit);
 									productionUnit.setTerminals(true);
 									if(character != 'ε') {
 										terminalSymbolSet.addSet(String.valueOf(character));
 									}
+									break;
 							}
 
 							// 索引后移
@@ -142,7 +216,8 @@ public class FileOperationTool {
 
 	/**
 	 * 将语法分析过程写入文件
-	 * @param filepath 文件路径
+	 *
+	 * @param filepath    文件路径
 	 * @param analysisLog 过程数组
 	 */
 	public static void writeLogToFile(String filepath, ArrayList<String> analysisLog) {
