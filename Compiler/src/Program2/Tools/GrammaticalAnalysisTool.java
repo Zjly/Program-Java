@@ -1,9 +1,7 @@
 package Program2.Tools;
 
-import Program2.Model.Production;
-import Program2.Model.ProductionPart;
-import Program2.Model.ProductionUnit;
-import Program2.Model.Set;
+import Program2.Model.*;
+import Program2.UnitTest.GrammaticalAnalysisToolTest;
 
 import java.util.ArrayList;
 
@@ -157,6 +155,8 @@ public class GrammaticalAnalysisTool {
 		throw new Exception("找不到左部为<" + specificContent + ">的产生式!");
 	}
 
+	public static CallTable callTable = new CallTable(GrammaticalAnalysisToolTest.nonTerminalSymbolSet);
+
 	static ArrayList<Set> sets = new ArrayList<>();
 	GrammaticalAnalysisTool() {
 		// 文法产生式数组
@@ -238,6 +238,10 @@ public class GrammaticalAnalysisTool {
 					// A→αBβ而FIRST(β)含有ε，则FOLLOW(A)的元素属于FOLLOW(B)
 					if(getFIRSTSet(productionArrayList, productionPartAfterUnit).haveSet("ε")) {
 						if(!production.getLeftPart().getUnitContent().equals(specificUnit.getUnitContent())) {
+							if(callTable.isCallEach(production.getLeftPart().getUnitContent(), specificUnit.getUnitContent())) {
+							    return set;
+							}
+							callTable.call(specificUnit.getUnitContent(), production.getLeftPart().getUnitContent());
 							set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart()));
 						}
 					}
@@ -245,6 +249,10 @@ public class GrammaticalAnalysisTool {
 					// A→αB，则FOLLOW(A)的元素属于FOLLOW(B)
 					if(productionPartAfterUnit.getUnitSize() == 0) {
 						if(!production.getLeftPart().getUnitContent().equals(specificUnit.getUnitContent())) {
+							if(callTable.isCallEach(production.getLeftPart().getUnitContent(), specificUnit.getUnitContent())) {
+								return set;
+							}
+							callTable.call(specificUnit.getUnitContent(), production.getLeftPart().getUnitContent());
 							set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart()));
 						}
 					}

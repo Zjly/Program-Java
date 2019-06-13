@@ -1,9 +1,6 @@
 package Program2.UnitTest;
 
-import Program2.Model.Production;
-import Program2.Model.ProductionPart;
-import Program2.Model.ProductionUnit;
-import Program2.Model.Set;
+import Program2.Model.*;
 import Program2.Tools.FileOperationTool;
 import Program2.Tools.GrammaticalAnalysisTool;
 import org.junit.jupiter.api.Test;
@@ -13,10 +10,10 @@ import java.util.ArrayList;
 import static Program2.Tools.FileOperationTool.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class GrammaticalAnalysisToolTest {
+public class GrammaticalAnalysisToolTest {
 	private static ArrayList<Production> productionArrayList;
 	private static Set terminalSymbolSet;
-	private static Set nonTerminalSymbolSet;
+	public static Set nonTerminalSymbolSet;
 	private static ProductionUnit beginningSymbol;
 
 	GrammaticalAnalysisToolTest() {
@@ -58,6 +55,7 @@ class GrammaticalAnalysisToolTest {
 			Set set = null;
 			try {
 				set = GrammaticalAnalysisTool.getFOLLOWSet(productionArrayList, beginningSymbol, production.getLeftPart());
+				GrammaticalAnalysisTool.callTable = new CallTable(GrammaticalAnalysisToolTest.nonTerminalSymbolSet);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
