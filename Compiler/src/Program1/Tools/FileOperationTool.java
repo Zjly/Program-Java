@@ -44,7 +44,7 @@ public class FileOperationTool {
 	 * @param filePath 文件路径
 	 * @return 单词符号哈希表
 	 */
-	static HashMap<String, Integer> readWordSymbolsFromFile(String filePath) {
+	 public static HashMap<String, Integer> readWordSymbolsFromFile(String filePath) {
 		// 建立哈希表储存关键字
 		HashMap<String, Integer> hashMap = new HashMap<>();
 

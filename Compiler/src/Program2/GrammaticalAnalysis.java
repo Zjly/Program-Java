@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
+import static Program2.Tools.BaseOperationTool.getInputString;
+
 public class GrammaticalAnalysis {
 	public static void main(String[] args) {
 		try {
@@ -21,7 +23,7 @@ public class GrammaticalAnalysis {
 	/**
 	 * 语法分析
 	 */
-	private static void grammaticalAnalysis() {
+	private static void grammaticalAnalysis() throws Exception {
 		// 文法产生式数组
 		ArrayList<Production> productionArrayList = new ArrayList<>();
 
@@ -57,6 +59,51 @@ public class GrammaticalAnalysis {
 			inputStack.push(wordStringArrayList.get(i));
 		}
 
-		// TODO 语法分析过程
+		// 符号栈顶元素
+		String symbolTop = symbolStack.peek();
+
+		// 当前输入元素
+		WordString inputTop = inputStack.pop();
+
+		// 语法分析过程
+		while(true) {
+			// 检查栈顶元素是否是终结符号
+			if(terminalSymbolSet.haveSet(symbolTop)) {
+				// 如果是终结符号，与当前输入进行对比，若两者相同则此符号分析成功
+				if(symbolTop.equals(getInputString(categoryNumberHashMap, inputTop))) {
+					symbolStack.pop();
+					symbolTop = symbolStack.peek();
+					inputTop = inputStack.pop();
+				} else {
+				    throw new Exception("分析失败，失败符号串: " + inputTop);
+				}
+			}
+
+			// 栈顶元素是非终结符号
+			else {
+				String inputTopString = getInputString(categoryNumberHashMap, inputTop);
+
+				// 如若两边都为$，则分析成功
+				if(symbolTop.equals("$") && inputTopString.equals("$")) {
+					System.out.println("分析成功！");
+					return;
+				}
+
+				// 查询LL(1)分析表，找到对应文法产生式
+			    ProductionPart productionPart = analysisTable.getElement(symbolTop, inputTopString);
+
+				// 出栈原本栈顶符号
+			    symbolStack.pop();
+
+			    // 反序入栈文法产生式内符号
+				for(int i = productionPart.getUnitSize() - 1; i >= 0; i--) {
+					if(productionPart.getUnit(i).getUnitContent().equals("ε")) {
+					    continue;
+					}
+					symbolStack.push(productionPart.getUnit(i).getUnitContent());
+				}
+				symbolTop = symbolStack.peek();
+			}
+		}
 	}
 }
