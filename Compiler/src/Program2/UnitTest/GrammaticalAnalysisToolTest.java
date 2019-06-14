@@ -1,14 +1,12 @@
 package Program2.UnitTest;
 
 import Program2.Model.*;
-import Program2.Tools.FileOperationTool;
 import Program2.Tools.GrammaticalAnalysisTool;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static Program2.Tools.FileOperationTool.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class GrammaticalAnalysisToolTest {
 	private static ArrayList<Production> productionArrayList;
@@ -21,7 +19,7 @@ public class GrammaticalAnalysisToolTest {
 		terminalSymbolSet = new Set();
 		nonTerminalSymbolSet = new Set();
 		beginningSymbol = new ProductionUnit();
-		readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		readProductionFromFile("src\\Files\\TestGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 	}
 
 	@Test

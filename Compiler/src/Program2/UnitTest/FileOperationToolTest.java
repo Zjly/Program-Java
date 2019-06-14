@@ -17,7 +17,7 @@ class FileOperationToolTest {
 		Set ntSet = new Set();
 		ProductionUnit productionUnit = new ProductionUnit();
 		FileOperationTool.readProductionFromFile
-				("src\\Files\\Grammar", arrayList, tSet, ntSet, productionUnit);
+				("src\\Files\\TestGrammar", arrayList, tSet, ntSet, productionUnit);
 		for(Production production : arrayList) {
 			System.out.println(production);
 		}

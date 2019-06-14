@@ -13,7 +13,7 @@ import static Program2.Tools.BaseOperationTool.*;
 
 public class GrammaticalAnalysis {
 	public static void main(String[] args) throws Exception {
-		grammaticalAnalysis("src\\Files\\Grammar", "src\\Files\\Program");
+		grammaticalAnalysis("src\\Files\\Grammar1", "src\\Files\\Program1");
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class GrammaticalAnalysis {
 			stringBuilder.append(symbolStackString).append("\t\t");
 			stringBuilder.append(symbolTop.getContent()).append("\t\t");
 			if(inputTop != null) {
-				stringBuilder.append(getInputString(categoryNumberHashMap, inputTop)).append("\t\t");
+				stringBuilder.append(getInputContent(categoryNumberHashMap, inputTop)).append("\t\t");
 			}
 			stringBuilder.append(inputStackString).append("\t\t");
 			analysisLog.add(stringBuilder.toString());
@@ -105,7 +105,7 @@ public class GrammaticalAnalysis {
 
 				// 如若两边都为$，则分析成功
 				if(symbolTop.getContent().equals("$") && inputTopString.equals("$")) {
-					System.out.println("分析成功！");
+					System.out.println("语法分析成功！");
 					break;
 				}
 
@@ -139,7 +139,7 @@ public class GrammaticalAnalysis {
 		}
 
 		// 将过程写入文件
-		FileOperationTool.writeLogToFile("src\\Files\\lexicalAnalysisLog", analysisLog);
+		FileOperationTool.writeLogToFile("src\\Files\\AnalysisLog", analysisLog);
 
 		return tree;
 	}

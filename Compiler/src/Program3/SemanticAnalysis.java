@@ -7,6 +7,7 @@ import Program3.Model.Quaternion;
 
 import java.util.ArrayList;
 
+import static Program3.Tools.FileOperationTool.*;
 import static Program3.Tools.SemanticAnalysisTool.productionCreate;
 
 /**
@@ -20,7 +21,7 @@ public class SemanticAnalysis {
 	public static ArrayList<Quaternion> quaternions = new ArrayList<>();
 
 	public static void main(String[] args) throws Exception {
-		FileOperationTool.readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		FileOperationTool.readProductionFromFile("src\\Files\\Grammar2", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 		semanticAnalysis();
 	}
 
@@ -29,13 +30,13 @@ public class SemanticAnalysis {
 	 */
 	private static void semanticAnalysis() throws Exception {
 		// 语法分析树
-		Node tree = GrammaticalAnalysis.grammaticalAnalysis("src\\Files\\testGrammar", "src\\Files\\testProgram");
+		Node tree = GrammaticalAnalysis.grammaticalAnalysis("src\\Files\\Grammar2", "src\\Files\\Program2");
 		pastOrder(tree);
 
+		System.out.println("语义分析成功！");
+
 		// 输出所有四元式
-		for(Quaternion q : quaternions) {
-			System.out.println(q);
-		}
+		writeQuaternionToFile("src\\Files\\Quaternions", quaternions);
 	}
 
 	/**

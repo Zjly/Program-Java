@@ -43,10 +43,6 @@ public class LL1AnalysisTable {
 		int row = nonTerminalSymbolHashMap.get(nonTerminalSymbol);
 		int col = terminalSymbolHashMap.get(terminalSymbol);
 
-		if(analysisTable[row][col] == null) {
-		    throw new Exception("分析错误，分析表位置("+ nonTerminalSymbol + ", " + terminalSymbol + ")");
-		}
-
 		return analysisTable[row][col];
 	}
 

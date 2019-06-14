@@ -48,7 +48,7 @@ public class BaseOperationTool {
 	/**
 	 * 判断字符是否是中文
 	 */
-	public static boolean isChinese(char character) {
+	static boolean isChinese(char character) {
 		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
 		Matcher m = p.matcher(character + "");
 
@@ -67,6 +67,21 @@ public class BaseOperationTool {
 			return categoryNumberHashMap.get(wordString.getCategoryCode());
 		} else {
 			return String.valueOf(wordString.getCategoryCode());
+		}
+	}
+
+	/**
+	 * 得到输入符号的字符串
+	 *
+	 * @param categoryNumberHashMap 类别编号哈希表
+	 * @param wordString            输入符号单词串
+	 * @return 输入符号的字符串
+	 */
+	public static String getInputContent(HashMap<Integer, String> categoryNumberHashMap, WordString wordString) {
+		if(categoryNumberHashMap.get(wordString.getCategoryCode()) != null) {
+			return categoryNumberHashMap.get(wordString.getCategoryCode());
+		} else {
+			return String.valueOf(wordString.getSymbolTable().getContent());
 		}
 	}
 
@@ -97,7 +112,7 @@ public class BaseOperationTool {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		for(WordString wordString : stack) {
-			stringBuilder.append(getInputString(categoryNumberHashMap, wordString));
+			stringBuilder.append(getInputContent(categoryNumberHashMap, wordString));
 		}
 
 		return stringBuilder.toString();

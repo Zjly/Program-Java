@@ -87,6 +87,7 @@ public class BaseOperationTool {
 			case ']':
 			case ')':
 			case '}':
+			case '$':
 				return true;
 			default:
 				return false;
