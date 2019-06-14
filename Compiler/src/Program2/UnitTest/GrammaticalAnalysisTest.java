@@ -1,27 +1,23 @@
-package Program2;
+package Program2.UnitTest;
 
 import Program1.LexicalAnalysis;
 import Program1.Model.WordString;
 import Program2.Model.*;
 import Program2.Tools.FileOperationTool;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
 import static Program2.Tools.BaseOperationTool.*;
+import static Program2.Tools.BaseOperationTool.getInputString;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class GrammaticalAnalysis {
-	public static void main(String[] args) throws Exception {
-		grammaticalAnalysis();
-	}
+class GrammaticalAnalysisTest {
 
-	/**
-	 * 语法分析
-	 *
-	 * @return 语法树根节点
-	 */
-	public static Node grammaticalAnalysis() throws Exception {
+	@Test
+	void grammaticalAnalysis() throws Exception {
 		// 文法产生式数组
 		ArrayList<Production> productionArrayList = new ArrayList<>();
 
@@ -35,10 +31,10 @@ public class GrammaticalAnalysis {
 		ProductionUnit beginningSymbol = new ProductionUnit();
 
 		// 读取文件并初始化一系列文法数组与集合
-		FileOperationTool.readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		FileOperationTool.readProductionFromFile("src\\Files\\Grammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 
 		// 进行词法分析，建立输入串符号表
-		ArrayList<WordString> wordStringArrayList = LexicalAnalysis.lexicalAnalysis("src\\Files\\testProgram");
+		ArrayList<WordString> wordStringArrayList = LexicalAnalysis.lexicalAnalysis("src\\Files\\Program");
 
 		// 建立类别符号哈希表，可以通过词法分析结果的类别符号找到对应的单词符号
 		HashMap<Integer, String> categoryNumberHashMap = Program1.Tools.FileOperationTool.readCategoryNumberFromFile("src\\Files\\Keywords");
@@ -87,10 +83,8 @@ public class GrammaticalAnalysis {
 			// 检查栈顶元素是否是终结符号
 			assert inputTop != null;
 			if(terminalSymbolSet.haveSet(symbolTop.getContent())) {
-				String symbolTopString = symbolTop.getContent();
-				String inputTopString = getInputString(categoryNumberHashMap, inputTop);
 				// 如果是终结符号，与当前输入进行对比，若两者相同则此符号分析成功
-				if(symbolTopString.equals(inputTopString) || symbolTopString.equals(String.valueOf(inputTop.getSymbolTable().getContent()))) {
+				if(symbolTop.getContent().equals(getInputString(categoryNumberHashMap, inputTop))) {
 					symbolStack.pop();
 					symbolTop = symbolStack.peek();
 					inputTop = inputStack.pop();
@@ -136,7 +130,5 @@ public class GrammaticalAnalysis {
 
 		// 将过程写入文件
 		FileOperationTool.writeLogToFile("src\\Files\\lexicalAnalysisLog", analysisLog);
-
-		return tree;
 	}
 }

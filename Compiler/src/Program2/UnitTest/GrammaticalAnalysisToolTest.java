@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GrammaticalAnalysisToolTest {
 	private static ArrayList<Production> productionArrayList;
 	private static Set terminalSymbolSet;
-	public static Set nonTerminalSymbolSet;
+	private static Set nonTerminalSymbolSet;
 	private static ProductionUnit beginningSymbol;
 
 	GrammaticalAnalysisToolTest() {
@@ -21,7 +21,7 @@ public class GrammaticalAnalysisToolTest {
 		terminalSymbolSet = new Set();
 		nonTerminalSymbolSet = new Set();
 		beginningSymbol = new ProductionUnit();
-		readProductionFromFile("src\\Files\\Grammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 	}
 
 	@Test
@@ -54,8 +54,8 @@ public class GrammaticalAnalysisToolTest {
 		for(Production production : productionArrayList) {
 			Set set = null;
 			try {
-				set = GrammaticalAnalysisTool.getFOLLOWSet(productionArrayList, beginningSymbol, production.getLeftPart());
-				GrammaticalAnalysisTool.callTable = new CallTable(GrammaticalAnalysisToolTest.nonTerminalSymbolSet);
+				CallTable callTable = new CallTable(nonTerminalSymbolSet);
+				set = GrammaticalAnalysisTool.getFOLLOWSet(productionArrayList, beginningSymbol, production.getLeftPart(), callTable);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

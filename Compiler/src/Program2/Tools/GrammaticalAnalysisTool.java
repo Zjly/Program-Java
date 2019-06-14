@@ -155,8 +155,6 @@ public class GrammaticalAnalysisTool {
 		throw new Exception("找不到左部为<" + specificContent + ">的产生式!");
 	}
 
-	public static CallTable callTable = new CallTable(GrammaticalAnalysisToolTest.nonTerminalSymbolSet);
-
 	static ArrayList<Set> sets = new ArrayList<>();
 	GrammaticalAnalysisTool() {
 		// 文法产生式数组
@@ -192,7 +190,7 @@ public class GrammaticalAnalysisTool {
 	 * @param specificUnit        指定左部单元
 	 * @return 指定左部单元的FOLLOW集
 	 */
-	public static Set getFOLLOWSet(ArrayList<Production> productionArrayList, ProductionUnit beginningUnit, ProductionUnit specificUnit) throws Exception {
+	public static Set getFOLLOWSet(ArrayList<Production> productionArrayList, ProductionUnit beginningUnit, ProductionUnit specificUnit, CallTable callTable) throws Exception {
 		Set set = new Set();
 		set.setName(specificUnit.getUnitContent());
 
@@ -242,7 +240,7 @@ public class GrammaticalAnalysisTool {
 							    return set;
 							}
 							callTable.call(specificUnit.getUnitContent(), production.getLeftPart().getUnitContent());
-							set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart()));
+							set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart(), callTable));
 						}
 					}
 
@@ -253,7 +251,7 @@ public class GrammaticalAnalysisTool {
 								return set;
 							}
 							callTable.call(specificUnit.getUnitContent(), production.getLeftPart().getUnitContent());
-							set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart()));
+							set.addSet(getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart(), callTable));
 						}
 					}
 				}

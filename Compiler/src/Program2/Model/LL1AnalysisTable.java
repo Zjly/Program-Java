@@ -25,7 +25,7 @@ public class LL1AnalysisTable {
 	 */
 	public LL1AnalysisTable(ArrayList<Production> productionArrayList, Set terminalSymbolSet, Set nonTerminalSymbolSet, ProductionUnit beginningUnit) {
 		initHashMap(terminalSymbolSet, nonTerminalSymbolSet);
-		initTable(productionArrayList, terminalSymbolSet, beginningUnit);
+		initTable(productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningUnit);
 	}
 
 	/**
@@ -42,6 +42,10 @@ public class LL1AnalysisTable {
 
 		int row = nonTerminalSymbolHashMap.get(nonTerminalSymbol);
 		int col = terminalSymbolHashMap.get(terminalSymbol);
+
+		if(analysisTable[row][col] == null) {
+		    throw new Exception("分析错误，分析表位置("+ nonTerminalSymbol + ", " + terminalSymbol + ")");
+		}
 
 		return analysisTable[row][col];
 	}
@@ -82,7 +86,7 @@ public class LL1AnalysisTable {
 	 * @param productionArrayList 产生式数组
 	 * @param terminalSymbolSet   终结符号集
 	 */
-	private void initTable(ArrayList<Production> productionArrayList, Set terminalSymbolSet, ProductionUnit beginningUnit) {
+	private void initTable(ArrayList<Production> productionArrayList, Set terminalSymbolSet, Set nonTerminalSymbolSet, ProductionUnit beginningUnit) {
 		analysisTable = new ProductionPart[nonTerminalSymbolHashMap.size()][terminalSymbolHashMap.size()];
 
 		for(Production production : productionArrayList) {
@@ -101,7 +105,8 @@ public class LL1AnalysisTable {
 
 					// 如果ε∈FIRST(α)，则对于属于FOLLOW(A)的每一个终结符号b或$，分别置M[A，b]=“A→x”和M[A，$]= “A→x”
 					if(FIRSTSet.haveSet("ε")) {
-						Set FOLLOWSet = getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart());
+						CallTable callTable = new CallTable(nonTerminalSymbolSet);
+						Set FOLLOWSet = getFOLLOWSet(productionArrayList, beginningUnit, production.getLeftPart(), callTable);
 						for(int j = 0; j < FOLLOWSet.getSize(); j++) {
 							String element = FOLLOWSet.getSet(j);
 							addElement(productionPart, production.getLeftPart().getUnitContent(), element);

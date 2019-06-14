@@ -63,7 +63,7 @@ public class FileOperationTool {
 				production.setLeftPart(leftUnit);
 
 				// 产生式右部
-				String[] rightPartsStrings = strings[1].split("\\|");
+				String[] rightPartsStrings = strings[1].split("丨");
 				for(String s : rightPartsStrings) {
 					ProductionPart productionPart = new ProductionPart();
 					production.addRightPart(productionPart);
@@ -126,11 +126,13 @@ public class FileOperationTool {
 										productionUnit.setUnitContent("<");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("<");
 										break;
 									} else if(isNotEnd(s, index) && s.charAt(index + 1) == '=') {
 										productionUnit.setUnitContent("<=");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("<=");
 										index++;
 										break;
 									} else {
@@ -145,12 +147,14 @@ public class FileOperationTool {
 										productionUnit.setUnitContent(">=");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet(">=");
 										index++;
 										break;
 									} else {
 										productionUnit.setUnitContent(">");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet(">");
 										break;
 									}
 								case '&':
@@ -158,12 +162,14 @@ public class FileOperationTool {
 										productionUnit.setUnitContent("&&");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("&&");
 										index++;
 										break;
 									} else {
 										productionUnit.setUnitContent("&");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("&");
 										break;
 									}
 								case '|':
@@ -171,12 +177,14 @@ public class FileOperationTool {
 										productionUnit.setUnitContent("||");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("||");
 										index++;
 										break;
 									} else {
 										productionUnit.setUnitContent("|");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("|");
 										break;
 									}
 								case '=':
@@ -184,12 +192,14 @@ public class FileOperationTool {
 										productionUnit.setUnitContent("==");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("==");
 										index++;
 										break;
 									} else {
 										productionUnit.setUnitContent("=");
 										productionPart.addUnit(productionUnit);
 										productionUnit.setTerminals(true);
+										terminalSymbolSet.addSet("=");
 										break;
 									}
 								default:

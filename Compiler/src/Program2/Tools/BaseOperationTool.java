@@ -66,7 +66,7 @@ public class BaseOperationTool {
 		if(categoryNumberHashMap.get(wordString.getCategoryCode()) != null) {
 			return categoryNumberHashMap.get(wordString.getCategoryCode());
 		} else {
-			return wordString.getSymbolTable().getContent();
+			return String.valueOf(wordString.getCategoryCode());
 		}
 	}
 
