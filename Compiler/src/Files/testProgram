@@ -1,11 +1,1 @@
-public class Template {
-	public static void main() {
-        while(a < b || c < d && e < f) {
-            if(c < d) {
-                x = y + z;
-                x = y;
-            }
-        }
-	}
-}
-$
+(a+b)*(c-d)+(a-c)*(b+d)$

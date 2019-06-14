@@ -12,7 +12,6 @@ import java.util.Stack;
 
 import static Program2.Tools.BaseOperationTool.*;
 import static Program2.Tools.BaseOperationTool.getInputString;
-import static org.junit.jupiter.api.Assertions.*;
 
 class GrammaticalAnalysisTest {
 
@@ -117,11 +116,11 @@ class GrammaticalAnalysisTest {
 				}
 
 				// 反序入栈文法产生式内符号
-				for(int i = parentNode.getSize() - 1; i >= 0; i--) {
-					if(parentNode.getNode(i).getContent().equals("ε")) {
+				for(int i = parentNode.getChildSize() - 1; i >= 0; i--) {
+					if(parentNode.getChildNode(i).getContent().equals("ε")) {
 						continue;
 					}
-					symbolStack.push(parentNode.getNode(i));
+					symbolStack.push(parentNode.getChildNode(i));
 				}
 
 				symbolTop = symbolStack.peek();

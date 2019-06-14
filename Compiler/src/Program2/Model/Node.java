@@ -18,6 +18,8 @@ public class Node {
 	 */
 	private ArrayList<Node> childNodes = new ArrayList<>();
 
+	private String data = "";
+
 	public Node(String content) {
 		this.content = content;
 	}
@@ -45,7 +47,7 @@ public class Node {
 	 * @param index 子节点索引
 	 * @return 子节点
 	 */
-	public Node getNode(int index) {
+	public Node getChildNode(int index) {
 		return childNodes.get(index);
 	}
 
@@ -54,7 +56,7 @@ public class Node {
 	 *
 	 * @return 子节点个数
 	 */
-	public int getSize() {
+	public int getChildSize() {
 		return childNodes.size();
 	}
 
@@ -64,5 +66,13 @@ public class Node {
 
 	public void setParentNode(Node parentNode) {
 		this.parentNode = parentNode;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
 	}
 }

@@ -13,7 +13,7 @@ import static Program2.Tools.BaseOperationTool.*;
 
 public class GrammaticalAnalysis {
 	public static void main(String[] args) throws Exception {
-		grammaticalAnalysis();
+		grammaticalAnalysis("src\\Files\\Grammar", "src\\Files\\Program");
 	}
 
 	/**
@@ -21,7 +21,7 @@ public class GrammaticalAnalysis {
 	 *
 	 * @return 语法树根节点
 	 */
-	public static Node grammaticalAnalysis() throws Exception {
+	public static Node grammaticalAnalysis(String filepathGrammar, String filepathProgram) throws Exception {
 		// 文法产生式数组
 		ArrayList<Production> productionArrayList = new ArrayList<>();
 
@@ -35,10 +35,10 @@ public class GrammaticalAnalysis {
 		ProductionUnit beginningSymbol = new ProductionUnit();
 
 		// 读取文件并初始化一系列文法数组与集合
-		FileOperationTool.readProductionFromFile("src\\Files\\testGrammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
+		FileOperationTool.readProductionFromFile(filepathGrammar, productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
 
 		// 进行词法分析，建立输入串符号表
-		ArrayList<WordString> wordStringArrayList = LexicalAnalysis.lexicalAnalysis("src\\Files\\testProgram");
+		ArrayList<WordString> wordStringArrayList = LexicalAnalysis.lexicalAnalysis(filepathProgram);
 
 		// 建立类别符号哈希表，可以通过词法分析结果的类别符号找到对应的单词符号
 		HashMap<Integer, String> categoryNumberHashMap = Program1.Tools.FileOperationTool.readCategoryNumberFromFile("src\\Files\\Keywords");
@@ -120,14 +120,18 @@ public class GrammaticalAnalysis {
 					Node childNode = new Node(productionPart.getUnit(i).getUnitContent());
 					childNode.setParentNode(parentNode);
 					parentNode.addChild(childNode);
+
+					if(inputTop.getCategoryCode() == 1 && productionPart.getUnit(i).getUnitContent().equals("标识符")) {
+					    childNode.setData(inputTop.getSymbolTable().getContent());
+					}
 				}
 
 				// 反序入栈文法产生式内符号
-				for(int i = parentNode.getSize() - 1; i >= 0; i--) {
-					if(parentNode.getNode(i).getContent().equals("ε")) {
+				for(int i = parentNode.getChildSize() - 1; i >= 0; i--) {
+					if(parentNode.getChildNode(i).getContent().equals("ε")) {
 						continue;
 					}
-					symbolStack.push(parentNode.getNode(i));
+					symbolStack.push(parentNode.getChildNode(i));
 				}
 
 				symbolTop = symbolStack.peek();
