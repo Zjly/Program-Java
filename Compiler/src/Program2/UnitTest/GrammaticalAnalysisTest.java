@@ -9,6 +9,6 @@ class GrammaticalAnalysisTest {
 
 	@Test
 	void grammaticalAnalysis() throws Exception {
-		GrammaticalAnalysis.grammaticalAnalysis("src\\Files\\TestGrammar", "src\\Files\\testProgram");
+		GrammaticalAnalysis.grammaticalAnalysis("src\\Files\\Grammar1", "src\\Files\\Program1");
 	}
 }
