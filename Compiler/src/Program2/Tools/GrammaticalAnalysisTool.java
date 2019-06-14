@@ -5,8 +5,6 @@ import Program2.UnitTest.GrammaticalAnalysisToolTest;
 
 import java.util.ArrayList;
 
-import static Program2.Tools.FileOperationTool.readProductionFromFile;
-
 /**
  * 语法分析工具类
  */
@@ -153,33 +151,6 @@ public class GrammaticalAnalysisTool {
 		}
 
 		throw new Exception("找不到左部为<" + specificContent + ">的产生式!");
-	}
-
-	static ArrayList<Set> sets = new ArrayList<>();
-	GrammaticalAnalysisTool() {
-		// 文法产生式数组
-		ArrayList<Production> productionArrayList = new ArrayList<>();
-
-		// 终结符号集
-		Set terminalSymbolSet = new Set();
-
-		// 非终结符号集
-		Set nonTerminalSymbolSet = new Set();
-
-		// 开始符号
-		ProductionUnit beginningSymbol = new ProductionUnit();
-
-		productionArrayList = new ArrayList<>();
-		terminalSymbolSet = new Set();
-		nonTerminalSymbolSet = new Set();
-		beginningSymbol = new ProductionUnit();
-		readProductionFromFile("src\\Files\\Grammar", productionArrayList, terminalSymbolSet, nonTerminalSymbolSet, beginningSymbol);
-
-		for(int i = 0; i < nonTerminalSymbolSet.getSize(); i++) {
-			Set set = new Set();
-			set.setName(nonTerminalSymbolSet.getName());
-			sets.add(set);
-		}
 	}
 
 	/**

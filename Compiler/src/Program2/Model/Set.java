@@ -33,32 +33,24 @@ public class Set {
 	 * 添加集合项
 	 *
 	 * @param set 待添加的集合项
-	 * @return 是否添加了元素
 	 */
-	public boolean addSet(String set) {
+	public void addSet(String set) {
 		if(!sets.contains(set)) {
 			sets.add(set);
-			return true;
 		}
-
-		return false;
 	}
 
 	/**
 	 * 向集合中添加另一个集合
 	 *
 	 * @param sets 待添加的另一个集合
-	 * @return 是否添加了元素
 	 */
-	public boolean addSet(Set sets) {
-		boolean flag = false;
+	public void addSet(Set sets) {
 		for(int i = 0; i < sets.getSize(); i++) {
 			if(!this.sets.contains(sets.getSet(i))) {
 				this.sets.add(sets.getSet(i));
-				flag = true;
 			}
 		}
-		return flag;
 	}
 
 	/**
@@ -88,21 +80,6 @@ public class Set {
 	 */
 	public boolean haveSet(String content) {
 		return sets.contains(content);
-	}
-
-	/**
-	 * 得到指定字符串的索引
-	 *
-	 * @param content 指定字符串
-	 * @return 索引
-	 */
-	public int getIndex(String content) {
-		for(int i = 0; i < sets.size(); i++) {
-			if(sets.get(i).equals(content)) {
-				return i;
-			}
-		}
-		return -1;
 	}
 
 	/**
