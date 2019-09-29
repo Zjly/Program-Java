@@ -1,18 +1,103 @@
 grammar CMM;
 
-test: STRING;
+// CMM语言文件
+file: compilationUnit*;
 
-ID: ID_LETTER (ID_LETTER | DIGIT)*;     // 标识符
-ID_LETTER: [a-zA-Z_];                   // 标识符中字母
-DIGIT: [0-9];                           // 数字
+// 编译单元
+compilationUnit: methodDeclaration;
 
-INT: DIGIT+;                // 整数
-FLOAT: DIGIT+ . DIGIT+;     // 浮点数
+// 方法
+methodDeclaration: TYPE ID '(' formalParameters ')' block;
 
-STRING: '"' (ESC | .)*? '"';    // 字符串
-fragment ESC: '\\' [bntr"\\];   // 表示\b \n \t \r
+// 形式参数
+formalParameters: (TYPE ID (',' TYPE ID)*)?;
 
-LINE_COMMENT: '//' .*? '\n' -> skip;    // 行注释
-COMMENT: '/*' .*? '*/' -> skip;         // 多行注释
+// 语句块
+block: '{' statement* '}';
 
-WS: [ \t\n\r]+ -> skip;     // 空白字符
+// 语句
+statement
+		: block
+		| variableDeclarationStatement
+		| ifStatement
+		| forStatement
+		| whileStatement
+		;
+
+// 变量声明
+variableDeclarationStatement
+							: TYPE ID ';'
+							| TYPE ID '=' expression ';'
+							;
+
+// if语句
+ifStatement: 'if' '(' parExpression ')' statement ('else' statement)*;
+
+// for语句
+forStatement: 'for' '(' forControl ')' statement;
+
+// while语句
+whileStatement: 'while' '(' parExpression ')' statement;
+
+// for控制语句
+forControl: forInit? ';' expression? ';' forUpdate?;
+
+// for变量初始化
+forInit
+	: variableDeclarationStatement
+	| expression
+	;
+
+// for更新
+forUpdate: expression;
+
+// 表达式
+expression
+		: NUMBER
+		;
+
+// 条件语句
+parExpression:;
+
+// 类型
+TYPE
+	: 'bool'
+	| 'char'
+	| 'byte'
+	| 'short'
+    | 'int'
+	| 'long'
+	| 'float'
+	| 'double'
+	;
+
+// 标识符
+ID: ID_LETTER (ID_LETTER | DIGIT)*;
+
+// 数
+NUMBER: NEGATIVE? (INT | FLOAT);
+// 整数
+INT: DIGIT+;
+// 浮点数
+FLOAT: DIGIT+ . DIGIT+;
+
+// 字符串
+STRING: '"' (ESC | .)*? '"';
+// 表示\b \n \t \r
+fragment ESC: '\\' [bntr"\\];
+
+// 行注释
+LINE_COMMENT: '//' .*? '\n' -> skip;
+// 多行注释
+COMMENT: '/*' .*? '*/' -> skip;
+
+// 空白字符
+WS: [ \t\n\r]+ -> skip;
+
+// 负
+NEGATIVE: '-';
+
+// 标识符中字母
+ID_LETTER: [a-zA-Z_];
+// 数字
+DIGIT: [0-9];
