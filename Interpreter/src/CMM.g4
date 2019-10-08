@@ -19,7 +19,7 @@ block: '{' statement* '}';
 statement
 		: block
 		| expression ';'
-		| variableDeclarationStatement
+		| variableDeclarationStatement ';'
 		| ifStatement
 		| forStatement
 		| whileStatement
@@ -28,8 +28,9 @@ statement
 
 // 变量声明
 variableDeclarationStatement
-							: TYPE ID ';'?
-							| TYPE ID '=' expression ';'?
+							: TYPE ID
+							| TYPE ID '=' expression
+							| TYPE ID '=' expression (',' ID '=' expression)*
 							;
 
 // if语句
@@ -57,6 +58,11 @@ forUpdate: expression;
 expression
 		: NUMBER
 		| ID
+		| CHARACTER
+		| STRING
+		| 'true'
+		| 'false'
+		| '(' expression ')'
 		| expression '(' (expression (',' expression)*)? ')'
 		| expression ('++' | '--')
 		|   ('+'|'-'|'++'|'--'|'!') expression
@@ -111,6 +117,8 @@ FLOAT: DIGIT+ . DIGIT+;
 
 // 字符串
 STRING: '"' (ESC | .)*? '"';
+// 字符
+CHARACTER: '\'' ( ESC | ~('\''|'\\') ) '\'';
 // 表示\b \n \t \r
 fragment ESC: '\\' [bntr"\\];
 
