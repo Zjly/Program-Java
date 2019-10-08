@@ -1,5 +1,4 @@
-// Generated from E:/Coding/Java/Program/Antlr4/src/Interpreter\CMM.g4 by ANTLR 4.7.2
-
+// Generated from E:/Coding/Java/Program/Interpreter/src\CMM.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

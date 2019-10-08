@@ -28,7 +28,7 @@ statement
 
 // ±äÁ¿ÉùÃ÷
 variableDeclarationStatement
-							: TYPE ID
+							: TYPE ID (',' ID)*
 							| TYPE ID '=' expression
 							| TYPE ID '=' expression (',' ID '=' expression)*
 							;
