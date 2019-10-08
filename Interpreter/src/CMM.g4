@@ -18,16 +18,18 @@ block: '{' statement* '}';
 // 语句
 statement
 		: block
+		| expression ';'
 		| variableDeclarationStatement
 		| ifStatement
 		| forStatement
 		| whileStatement
+		| 'return' expression? ';'
 		;
 
 // 变量声明
 variableDeclarationStatement
-							: TYPE ID ';'
-							| TYPE ID '=' expression ';'
+							: TYPE ID ';'?
+							| TYPE ID '=' expression ';'?
 							;
 
 // if语句
@@ -54,10 +56,36 @@ forUpdate: expression;
 // 表达式
 expression
 		: NUMBER
+		| ID
+		| expression '(' (expression (',' expression)*)? ')'
+		| expression ('++' | '--')
+		|   ('+'|'-'|'++'|'--'|'!') expression
+        |   '(' TYPE ')' expression
+        |   expression ('*'|'/'|'%') expression
+        |   expression ('+'|'-') expression
+        |   expression ('<<'| '>>') expression
+        |   expression ('<=' | '>=' | '>' | '<') expression
+        |   expression ('==' | '!=') expression
+        |   expression '&' expression
+        |   expression '^' expression
+        |   expression '|' expression
+        |   expression '&&' expression
+        |   expression '||' expression
+        |   expression '?' expression ':' expression
+        |   expression
+	        ('+='<assoc=right>
+	        |'-='<assoc=right>
+	        |'*='<assoc=right>
+	        |'/='<assoc=right>
+	        |'&='<assoc=right>
+	        |'|='<assoc=right>
+	        |'='<assoc=right>
+	        )
+            expression
 		;
 
 // 条件语句
-parExpression:;
+parExpression: expression;
 
 // 类型
 TYPE
