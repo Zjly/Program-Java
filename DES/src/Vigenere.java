@@ -1,12 +1,12 @@
 public class Vigenere {
 	public static void main(String[] args) {
 		String plainText = "intrusion detection".replace(" ", "");
-		String key = "MENU";
+		String key = "menu";
 		StringBuilder cipherText = new StringBuilder();
 
 		for(int i = 0; i < plainText.length(); i++) {
 			char cKey = key.charAt(i % key.length());
-			int iKey = cKey - 65;
+			int iKey = cKey - 97;
 
 			char cPlainText = plainText.charAt(i);
 			int iPlainText = cPlainText - 97;
