@@ -1,4 +1,5 @@
-import org.junit.Assert;
+package question;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertSame;

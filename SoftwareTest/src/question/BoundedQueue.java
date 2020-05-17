@@ -1,10 +1,10 @@
-// Introduction to Software Testing
+package question;// Introduction to Software Testing
 // Authors: Paul Ammann & Jeff Offutt
 // Chapter 3, page ??
-// See BoundedQueueTest.java for JUnit tests. (Instructor only)
+// See questionTest.BoundedQueueTest.java for JUnit tests. (Instructor only)
 
 public class BoundedQueue {
-	// Overview:  a BoundedQueue is a mutable, bounded FIFO data structure
+	// Overview:  a questionTest.BoundedQueue is a mutable, bounded FIFO data structure
 	// of fixed size , with size being set in the constructor
 	// A typical Queue is [], [o1], or [o1, o2], where neither o1 nor o2
 	// are ever null.  Older elements are listed before newer ones.
@@ -15,7 +15,7 @@ public class BoundedQueue {
 
 	public BoundedQueue(int capacity) {
 		if(capacity < 0)
-			throw new IllegalArgumentException("BoundedQueue.constructor");
+			throw new IllegalArgumentException("questionTest.BoundedQueue.constructor");
 		this.capacity = capacity;
 		elements = new Object[capacity];
 		size = 0;
@@ -29,9 +29,9 @@ public class BoundedQueue {
 		// else if this is full, throw IllegalStateException,
 		// else make o the newest element of this
 		if(o == null)
-			throw new NullPointerException("BoundedQueue.enQueue");
+			throw new NullPointerException("questionTest.BoundedQueue.enQueue");
 		else if(size == capacity)
-			throw new IllegalStateException("BoundedQueue.enQueue");
+			throw new IllegalStateException("questionTest.BoundedQueue.enQueue");
 		else {
 			size++;
 			elements[back] = o;
@@ -44,7 +44,7 @@ public class BoundedQueue {
 		// else remove and return oldest element of this
 
 		if(size == 0)
-			throw new IllegalStateException("BoundedQueue.deQueue");
+			throw new IllegalStateException("questionTest.BoundedQueue.deQueue");
 		else {
 			size--;
 			Object o = elements[(front % capacity)];
